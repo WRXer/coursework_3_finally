@@ -23,15 +23,14 @@ def executed_operations(words):
                 executed_operations_list.append(w)
     return executed_operations_list
 
-def sorted_date(executed_operations_list):
+def sorted_data(executed_operations_list):
     """
     Функция сортировки по дате(сверху самые последние)
     """
-    sort_list = sorted(executed_operations_list, key=lambda x: datetime.datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'), reverse=True)
-    return sort_list
+    return sorted(executed_operations_list, key=lambda x: datetime.datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'), reverse=True)
 
 
 def main():
     words = load_words()
     executed_operations_list = executed_operations(words)
-    print(sorted_date(executed_operations_list))
+    sort_list = sorted_data(executed_operations_list)
