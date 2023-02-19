@@ -34,3 +34,19 @@ def test_sorted_to_data(words):
     executed_operations = functions.executed_operations(words)
     assert isinstance(functions.sorted_data(executed_operations), list)
     assert functions.sorted_data(executed_operations) != executed_operations
+
+
+def test_last_operations(words):
+    """
+    Тест функции определения последних 5 операций
+    """
+    sorted = functions.last_operations(functions.sorted_data(functions.executed_operations(words)))
+    assert len(sorted[:5]) == 5
+    assert isinstance(sorted[:5], list)
+
+
+def hiding_card(last_five_operations):
+    """
+    Тест частичного скрытия карты и счета
+    """
+    pass
