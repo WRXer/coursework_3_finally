@@ -10,10 +10,11 @@ def load_words():
     return words
 
 
-def executed_operations(words):
+def executed_operations():
     """
     Функция отбора выполненных операций
     """
+    words = load_words()
     executed_operations_list = []
     for w in words:
         if not w:  # Ищем пустые словари
@@ -23,17 +24,19 @@ def executed_operations(words):
                 executed_operations_list.append(w)
     return executed_operations_list
 
-def sorted_data(executed_operations_list):
+def sorted_data():
     """
     Функция сортировки по дате(сверху самые последние)
     """
+    executed_operations_list = executed_operations()
     return sorted(executed_operations_list, key=lambda x: datetime.datetime.strptime(x['date'], '%Y-%m-%dT%H:%M:%S.%f'), reverse=True)
 
 
-def last_operations(sort_list):
+def last_operations():
     """
     Функция определения последних 5 операций
     """
+    sort_list = sorted_data()
     return sort_list[:5]
 
 
@@ -54,6 +57,7 @@ def date_new(last_five_operations):
     """
     Функция корректировки вывода даты в нужном формате
     """
+    hiding_card(last_five_operations)
     for k in last_five_operations:
         k['date'] = (datetime.datetime.strptime(k['date'], "%Y-%m-%dT%H:%M:%S.%f")).strftime("%d.%m.%Y")  # Делаем сокращенным время
     return last_five_operations
@@ -63,6 +67,7 @@ def conclusion_result(last_five_operations):
     """
     Функция вывода
     """
+    date_new(last_five_operations)
     for w in last_five_operations:
         if 'перевод' in w['description'].lower():
             print(f"{w['date']} {w['description']}\n{w['from']} -> {w['to']}\n{w['operationAmount']['amount']} {w['operationAmount']['currency']['name']} \n ")
@@ -72,10 +77,5 @@ def conclusion_result(last_five_operations):
 
 
 def main():
-    words = load_words()
-    executed_operations_list = executed_operations(words)
-    sort_list = sorted_data(executed_operations_list)
-    last_five_operations = last_operations(sort_list)
-    hiding_card(last_five_operations)
-    date_new(last_five_operations)
+    last_five_operations = last_operations()
     conclusion_result(last_five_operations)
