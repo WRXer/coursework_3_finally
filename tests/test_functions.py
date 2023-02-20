@@ -54,8 +54,19 @@ def test_hiding_card(words):
         assert isinstance(k, dict)
 
 
+def test_date_new(words):
+    """
+    Тест функции корректировки вывода даты в нужном формате
+    """
+    last_five_operations = functions.last_operations(functions.sorted_data(functions.executed_operations(words)))[:5]
+    assert isinstance(functions.date_new(last_five_operations), list)
 
 
-
+def test_conclusion_result(words,capfd):
+    """
+    Тест функции вывода
+    """
+    last_five_operations = functions.last_operations(functions.sorted_data(functions.executed_operations(words)))[:5]
+    assert functions.conclusion_result(last_five_operations) is True
 
 

@@ -59,6 +59,18 @@ def date_new(last_five_operations):
     return last_five_operations
 
 
+def conclusion_result(last_five_operations):
+    """
+    Функция вывода
+    """
+    for w in last_five_operations:
+        if 'перевод' in w['description'].lower():
+            print(f"{w['date']} {w['description']}\n{w['from']} -> {w['to']}\n{w['operationAmount']['amount']} {w['operationAmount']['currency']['name']} \n ")
+        else:
+            print(f"{w['date']} {w['description']}\n{w['to']}\n{w['operationAmount']['amount']} {w['operationAmount']['currency']['name']} \n ")
+    return True
+
+
 def main():
     words = load_words()
     executed_operations_list = executed_operations(words)
@@ -66,5 +78,4 @@ def main():
     last_five_operations = last_operations(sort_list)
     hiding_card(last_five_operations)
     date_new(last_five_operations)
-    for k in last_five_operations:
-        print(k)
+    conclusion_result(last_five_operations)
