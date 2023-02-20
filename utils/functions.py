@@ -43,35 +43,20 @@ def hiding_card(last_five_operations):
     """
     for k in last_five_operations:
         if 'перевод' in k['description'].lower():
-            str = k['from']    #крываем номер карты отправителя
-            strlength = len(str)
-            masked = strlength - 4
-            start_str = str[:masked - 6]
-            end_str = str[masked:]
-            mask_from = start_str + "*" * 6 + end_str
-            str = k['to']    #Скрываем номер карты получателя
-            strlength = len(str)
-            masked = strlength - 4
-            slimstr = str[masked:]
-            mask_to = "*" * 2 + slimstr
-            k['from'] = mask_from
-            k['to'] = mask_to
-            dt = datetime.datetime.strptime(k['date'], "%Y-%m-%dT%H:%M:%S.%f")    #Делаем сокращенным время
-            new_format = dt.strftime("%d.%m.%Y")
-            k['date'] = new_format
-        else:
-            str = k['to']    #Скрываем номер карты получателя
-            strlength = len(str)
-            masked = strlength - 4
-            start_str = str[:masked - 16]
-            end_str = str[masked:]
-            mask_to = start_str + "*" * 2 + end_str
-            k['to'] = mask_to
-            dt = datetime.datetime.strptime(k['date'], "%Y-%m-%dT%H:%M:%S.%f")    #Делаем сокращенным время
-            new_format = dt.strftime("%d.%m.%Y")
-            k['date'] = new_format
+            if 'счет' in k['from'].lower():
+                k['from'] = k['from'][:(len(k['from']) - 4) - 10] + '*' * 6 + k['from'][(len(k['from']) - 4):]
+            k['from'] = k['from'][:(len(k['from']) - 4)-6] + '*' * 6 + k['from'][(len(k['from']) - 4):]    #Cкрываем номер карты отправителя
+        k['to']  = k['to'][:(len(k['to']) - 4) - 16] + '*' * 2 + k['to'][(len(k['to']) - 4):]    # Скрываем номер карты получателя
     return last_five_operations
 
+
+def date_new(last_five_operations):
+    """
+    Функция корректировки вывода даты в нужном формате
+    """
+    for k in last_five_operations:
+        k['date'] = (datetime.datetime.strptime(k['date'], "%Y-%m-%dT%H:%M:%S.%f")).strftime("%d.%m.%Y")  # Делаем сокращенным время
+    return last_five_operations
 
 
 def main():
@@ -79,5 +64,7 @@ def main():
     executed_operations_list = executed_operations(words)
     sort_list = sorted_data(executed_operations_list)
     last_five_operations = last_operations(sort_list)
-    for w in hiding_card(last_five_operations):
-        print(w)
+    hiding_card(last_five_operations)
+    date_new(last_five_operations)
+    for k in last_five_operations:
+        print(k)

@@ -23,7 +23,6 @@ def test_executed_operations(words):
     Тест функции отбора выполненных операций
     """
     assert isinstance(functions.executed_operations(words), list)
-    #assert type(functions.executed_operations(words)) == list
     assert functions.executed_operations(words) is not None
 
 
@@ -45,8 +44,18 @@ def test_last_operations(words):
     assert isinstance(sorted[:5], list)
 
 
-def hiding_card(last_five_operations):
+def test_hiding_card(words):
     """
     Тест частичного скрытия карты и счета
     """
-    pass
+    last_five_operations = functions.last_operations(functions.sorted_data(functions.executed_operations(words)))[:5]
+    assert isinstance(functions.hiding_card(last_five_operations), list)
+    for k in last_five_operations:
+        assert isinstance(k, dict)
+
+
+
+
+
+
+
